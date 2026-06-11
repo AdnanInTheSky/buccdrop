@@ -3,14 +3,15 @@ const appContainer = document.getElementById('app');
 let currentSlideIndex = 0;
 let isTransitioning = false;
 
-// Slide sequence definition
+// Slide sequence definition (Updated with new flow and "Human Resources")
 const slides = [
     { text: "Transfer Window", btnText: "Next" },
-    { text: "From HR", btnText: "Next" },
+    { text: "From Human Resources", btnText: "Next" },
     { text: "Dibyo Singho Barua<br/><span class='text-4xl md:text-5xl text-gray-400 mt-4 block'>Subrajit</span>", btnText: "Next" },
-    { text: "To HR", btnText: "Next" },
+    { text: "To Communication and Marketing", btnText: "Next" },
+    { text: "From Communication and Marketing<br/><span class='text-4xl md:text-5xl text-gray-400 mt-4 block'>To Human Resources</span>", btnText: "Next" },
     { text: "Play Again?", btnText: "Yes" },
-    { text: "HR", btnText: "Next" },
+    { text: "From Human Resources", btnText: "Next" },
     { text: "Mahir Dyan", btnText: "Next" },
     { text: "To R&D", btnText: "Next" },
     { text: "Transfer Complete", btnText: "Restart" }
