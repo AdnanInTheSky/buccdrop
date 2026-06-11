@@ -9,7 +9,8 @@ const slides = [
     { text: "From Human Resources", btnText: "Next" },
     { text: "Dibyo Singho Barua<br/><span class='text-4xl md:text-5xl text-gray-400 mt-4 block'>Subrajit</span>", btnText: "Next" },
     { text: "To Communication and Marketing", btnText: "Next" },
-    { text: "From Communication and Marketing<br/><span class='text-4xl md:text-5xl text-gray-400 mt-4 block'>To Human Resources</span>", btnText: "Next" },
+    { text: "From Communication and Marketing<br", btnText: "Next" },
+    { text: "To Human Resources", btnText: "Next" },
     { text: "Play Again?", btnText: "Yes" },
     { text: "From Human Resources", btnText: "Next" },
     { text: "Mahir Dyan", btnText: "Next" },
@@ -18,7 +19,8 @@ const slides = [
     { text: "From Finance", btnText: "Next" },
     { text: "Rafia Raisa Taimur", btnText: "Next" },
     { text: "To Human Resources", btnText: "Next" },
-    { text: "From Human Resources<br/><span class='text-4xl md:text-5xl text-gray-400 mt-4 block'>To Finance</span>", btnText: "Next" },
+    { text: "From Human Resources", btnText: "Next" },
+    { text: "To Finance", btnText: "Next" },
     { text: "Transfer Complete", btnText: "Restart" }
 ];
 
