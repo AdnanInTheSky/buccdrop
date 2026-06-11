@@ -7,7 +7,7 @@ let isTransitioning = false;
 const slides = [
     { text: "Transfer Window", btnText: "Next" },
     { text: "From Human Resources", btnText: "Next" },
-    { text: "Dibyo Singho Barua<br/><span class='text-4xl md:text-5xl text-gray-400 mt-4 block'>Subrajit</span>", btnText: "Next" },
+    { text: "Dibyo Singho Barua Subrajit</span>", btnText: "Next" },
     { text: "To Communication and Marketing", btnText: "Next" },
     { text: "From Communication and Marketing<br", btnText: "Next" },
     { text: "To Human Resources", btnText: "Next" },
