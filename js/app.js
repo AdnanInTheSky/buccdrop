@@ -3,7 +3,7 @@ const appContainer = document.getElementById('app');
 let currentSlideIndex = 0;
 let isTransitioning = false;
 
-// Slide sequence definition (Updated with Rafia Raisa Taimur's transfer prank)
+// Slide sequence definition
 const slides = [
     { text: "Transfer Window", btnText: "Next" },
     { text: "From Human Resources", btnText: "Next" },
@@ -14,7 +14,7 @@ const slides = [
     { text: "From Human Resources", btnText: "Next" },
     { text: "Mahir Dyan", btnText: "Next" },
     { text: "To R&D", btnText: "Next" },
-    { text: "Transfer Complete", btnText: "Next" }, // Transitioning into the 3rd prank
+    { text: "Transfer Complete", btnText: "Next" },
     { text: "From Finance", btnText: "Next" },
     { text: "Rafia Raisa Taimur", btnText: "Next" },
     { text: "To Human Resources", btnText: "Next" },
@@ -24,12 +24,10 @@ const slides = [
 
 // --- RENDERING LOGIC ---
 
-/**
- * Mounts the initial password protection screen.
- */
 function renderLogin() {
+    // Removed Tailwind transition classes to let GSAP handle it
     appContainer.innerHTML = `
-        <div id="view-wrapper" class="opacity-0 scale-95 transition-all duration-700 ease-in-out transform flex flex-col items-center w-full">
+        <div id="view-wrapper" class="flex flex-col items-center w-full">
             <h1 class="text-4xl md:text-5xl font-light mb-10 tracking-[0.2em] text-gray-200 uppercase">
                 Transfer Access Portal
             </h1>
@@ -38,7 +36,7 @@ function renderLogin() {
                     type="password" 
                     id="password" 
                     placeholder="Enter Access Code"
-                    class="w-full px-4 py-4 bg-gray-900 border border-gray-800 rounded-lg text-center text-xl text-white focus:outline-none focus:border-gray-500 focus:ring-1 focus:ring-gray-500 transition-all mb-2" 
+                    class="w-full px-4 py-4 bg-gray-900 border border-gray-800 rounded-lg text-center text-xl text-white focus:outline-none focus:border-gray-500 focus:ring-1 focus:ring-gray-500 transition-colors mb-2" 
                     required 
                     autocomplete="off"
                 />
@@ -53,21 +51,16 @@ function renderLogin() {
         </div>
     `;
 
-    // Trigger fade-in animation
-    requestAnimationFrame(() => animateIn());
+    animateIn();
     document.getElementById('loginForm').addEventListener('submit', handleLogin);
 }
 
-/**
- * Handles the password verification via Serverless Function
- */
 async function handleLogin(e) {
     e.preventDefault();
     const password = document.getElementById('password').value;
     const btn = document.getElementById('loginBtn');
     const errorMsg = document.getElementById('errorMsg');
 
-    // Set loading state
     btn.disabled = true;
     btn.textContent = 'Verifying...';
     errorMsg.classList.replace('opacity-100', 'opacity-0');
@@ -82,10 +75,8 @@ async function handleLogin(e) {
         const data = await response.json();
 
         if (data.success) {
-            // Success: Move to slide deck
             transitionToNextView(() => renderSlide());
         } else {
-            // Failure: Show elegant inline error
             showInlineError(data.message || 'Access Denied.');
             resetLoginButton(btn);
         }
@@ -99,6 +90,12 @@ function showInlineError(message) {
     const errorMsg = document.getElementById('errorMsg');
     errorMsg.textContent = message;
     errorMsg.classList.replace('opacity-0', 'opacity-100');
+    
+    // Shake animation for error
+    gsap.fromTo(errorMsg, 
+        { x: -10 }, 
+        { x: 0, duration: 0.4, ease: "bounce.out" }
+    );
 }
 
 function resetLoginButton(btn) {
@@ -108,35 +105,32 @@ function resetLoginButton(btn) {
     document.getElementById('password').focus();
 }
 
-/**
- * Renders the current slide from the array
- */
 function renderSlide() {
     const slide = slides[currentSlideIndex];
 
     appContainer.innerHTML = `
-        <div id="view-wrapper" class="opacity-0 scale-95 transition-all duration-700 ease-in-out transform flex flex-col items-center justify-center w-full">
+        <div id="view-wrapper" class="flex flex-col items-center justify-center w-full">
             <h2 class="text-5xl md:text-7xl font-light mb-16 tracking-wide leading-tight text-gray-100">
                 ${slide.text}
             </h2>
             <button 
                 id="slideBtn"
-                class="px-12 py-4 bg-transparent border border-gray-600 text-gray-300 font-medium tracking-widest uppercase text-sm rounded-full hover:bg-gray-100 hover:text-gray-900 hover:scale-105 transition-all duration-500 disabled:opacity-50 disabled:hover:scale-100">
+                class="px-12 py-4 bg-transparent border border-gray-600 text-gray-300 font-medium tracking-widest uppercase text-sm rounded-full hover:bg-gray-100 hover:text-gray-900 hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:hover:scale-100">
                 ${slide.btnText}
             </button>
         </div>
     `;
 
-    requestAnimationFrame(() => animateIn());
+    animateIn();
 
     document.getElementById('slideBtn').addEventListener('click', (e) => {
         if (isTransitioning) return;
         
         const btn = e.target;
-        btn.disabled = true; // Disable button to prevent double clicks during animation
+        btn.disabled = true; 
 
         if (currentSlideIndex === slides.length - 1) {
-            currentSlideIndex = 0; // Restart without asking for password
+            currentSlideIndex = 0; 
         } else {
             currentSlideIndex++;
         }
@@ -145,16 +139,17 @@ function renderSlide() {
     });
 }
 
-// --- ANIMATION UTILS ---
+// --- GSAP ANIMATION UTILS ---
 
 function animateIn() {
-    setTimeout(() => {
-        const wrapper = document.getElementById('view-wrapper');
-        if (wrapper) {
-            wrapper.classList.remove('opacity-0', 'scale-95');
-            wrapper.classList.add('opacity-100', 'scale-100');
-        }
-    }, 50); // slight delay ensures DOM paints before transition triggers
+    const wrapper = document.getElementById('view-wrapper');
+    if (!wrapper) return;
+
+    // Animate children (Title, then Form/Button) sliding up and fading in
+    gsap.fromTo(wrapper.children, 
+        { y: 40, opacity: 0, scale: 0.98 },
+        { y: 0, opacity: 1, scale: 1, duration: 0.8, stagger: 0.15, ease: "power3.out" }
+    );
 }
 
 function transitionToNextView(renderNextCallback) {
@@ -164,15 +159,19 @@ function transitionToNextView(renderNextCallback) {
     const wrapper = document.getElementById('view-wrapper');
     
     if (wrapper) {
-        // Trigger fade out and scale up slightly for a cinematic exit
-        wrapper.classList.remove('opacity-100', 'scale-100');
-        wrapper.classList.add('opacity-0', 'scale-105');
-        
-        // Wait for CSS transition duration (700ms) before re-rendering
-        setTimeout(() => {
-            renderNextCallback();
-            isTransitioning = false;
-        }, 700);
+        // Animate children sliding out and fading away
+        gsap.to(wrapper.children, {
+            y: -40,
+            opacity: 0,
+            scale: 1.05,
+            duration: 0.5,
+            stagger: 0.1,
+            ease: "power2.in",
+            onComplete: () => {
+                renderNextCallback();
+                isTransitioning = false;
+            }
+        });
     } else {
         renderNextCallback();
         isTransitioning = false;
