@@ -3,7 +3,7 @@ const appContainer = document.getElementById('app');
 let currentSlideIndex = 0;
 let isTransitioning = false;
 
-// Slide sequence definition (Updated with new flow and "Human Resources")
+// Slide sequence definition (Updated with Rafia Raisa Taimur's transfer prank)
 const slides = [
     { text: "Transfer Window", btnText: "Next" },
     { text: "From Human Resources", btnText: "Next" },
@@ -14,6 +14,11 @@ const slides = [
     { text: "From Human Resources", btnText: "Next" },
     { text: "Mahir Dyan", btnText: "Next" },
     { text: "To R&D", btnText: "Next" },
+    { text: "Transfer Complete", btnText: "Next" }, // Transitioning into the 3rd prank
+    { text: "From Finance", btnText: "Next" },
+    { text: "Rafia Raisa Taimur", btnText: "Next" },
+    { text: "To Human Resources", btnText: "Next" },
+    { text: "From Human Resources<br/><span class='text-4xl md:text-5xl text-gray-400 mt-4 block'>To Finance</span>", btnText: "Next" },
     { text: "Transfer Complete", btnText: "Restart" }
 ];
 
